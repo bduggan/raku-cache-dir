@@ -132,7 +132,8 @@ include their age, storage path, and value (see L<Cache::Dir::Entry> below).
   method get-cached($key, &v) returns Mu
   =end code
 
-Return a key if it exists, or store the provided value.  The value can be a scalar or a routine.
+Return a key if it exists, or store the provided value.  If the value is a routine,
+it is called.
 
 =head2 method get
   =begin code
@@ -141,7 +142,7 @@ Return a key if it exists, or store the provided value.  The value can be a scal
   method get($key, &v) returns Mu
   =end code
 
-Get a value with a default scalar or routine
+Get a value with a provided default (but don't store).
 
 =head2 method store
   =begin code
@@ -149,7 +150,8 @@ Get a value with a default scalar or routine
   method store($key, &v) returns Mu
   =end code
 
-Store a value with a key.  The value can be a scalar or a routine.
+Store a value for a key.  If the value is a routine, the result of
+calling it is stored.
 
 =head2 method remove
   =begin code
@@ -172,19 +174,12 @@ Check if a key exists in the cache.
 
 Return the number of seconds since the key was last modified.
 
-=head2 method all-keys
-  =begin code
-  method all-keys returns Array
-  =end code
-
-Return a list of all keys in the cache.
-
 =head2 method flush
   =begin code
   method flush returns Mu
   =end code
 
-Remove all keys from the cache.
+Remove all entries from the cache.
 
 =head2 method get-entries
   =begin code

@@ -140,6 +140,11 @@ method modified
 
 Return the last modified time of the entry.
 
+BUGS
+====
+
+Getting the key's age relies on accurate interactions between Raku and the filesystem.
+
 AUTHOR
 ======
 
