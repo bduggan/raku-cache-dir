@@ -1,0 +1,52 @@
+#!raku
+
+use Test;
+
+use Cache::Dir;
+
+try Cache::Dir.new;
+ok so $!, 'missing param';
+
+my $tmp will leave { .rmdir if .defined } = $*TMPDIR.child: 'cache-dir-test';
+
+my $c = Cache::Dir.new(dir => $tmp);
+
+ok $c, 'made a dir cache';
+
+$c.store('foo', 'bar');
+ok $c.exists('foo'), 'foo exists';
+is $c.get('foo'), 'bar', 'foo is bar';
+$c.remove('foo');
+ok !$c.exists('foo'), 'foo is gone';
+
+$c.get-cached: 'question', { "why?" };
+is $c.get('question'), 'why?', 'sub';
+
+ok !$c.get('nothing'), 'missing';
+is $c.get('nothing', 10), 10, 'default';
+is $c.get('nothing', sub { 11 }), 11, 'default sub';
+
+is $c.get-cached('something', 'twelve'), 'twelve', 'store default';
+is $c.get('something'), 'twelve', 'stored';
+
+is $c.get-cached('something-else', sub { 11 }), 11, 'store default with sub';
+is $c.get('something-else'), 11, 'stored';
+
+is-deeply $c.get-cached([1, 2, 3], [4, 5, 6]), [4, 5, 6], 'use array as a key';
+is-deeply $c.get([1, 2, 3]), [4, 5, 6], 'stored array';
+is-deeply $c.get-cached([1, 2, 9], sub { [4, 5, 6] }), [4, 5, 6], 'stored sub';
+is-deeply $c.get([1, 2, 9]), [4, 5, 6], 'stored array';
+
+ok $c.get-entries.elems != 0, 'some keys';
+for $c.get-entries -> $r {
+  $r.clear; 
+}
+ok $c.get-entries.elems == 0, 'removed all elements';
+
+$c.store('foo', 'bar');
+is-deeply $c.get-entries[0].value, 'bar', 'value for entry is right';
+$c.flush;
+ok $c.get-entries.elems == 0, 'flush';
+
+done-testing;
+

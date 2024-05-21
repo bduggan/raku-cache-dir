@@ -1,0 +1,21 @@
+{
+  "authors" : [
+    "Brian Duggan"
+  ],
+  "build-depends" : [ ],
+  "depends" : [
+  ],
+  "description" : "",
+  "license" : "MIT",
+  "name" : "Cache::Dir",
+  "perl" : "6.*",
+  "provides" : {
+    "Cache::Dir" : "lib/Cache/Dir.rakumod",
+    "Cache::Dir::Entry" : "lib/Cache/Dir.rakumod"
+  },
+  "resources" : [ ],
+  "source-url" : "",
+  "tags" : [ ],
+  "test-depends" : [ ],
+  "version" : "0.0.1"
+}
