@@ -1,21 +1,33 @@
 NAME
 ====
 
-Cache::Dir - A simple file-based cache
+Cache::Dir - A simple key-value store using the filesystem.
 
 SYNOPSIS
 ========
 
     use Cache::Dir;
-    my $cache = Cache::Dir.new(dir => 'cache');
-    $cache.get-cached('key', 'value'); # Returns 'value' and stores it in the cache
+    my $cache = Cache::Dir.new: dir => $*HOME.child('.cache');
+
+    $cache.get-cached: 'answer', 42;
+    $catch.get-cached: 'question', { "why?" };
+    $cache.exists: 'answer';          # true
+    $cache.get: 'answer';             # 42
+    $cache.remove: 'answer';
+    $cache.get('question');           # why?
 
 DESCRIPTION
 ===========
 
-This module provides a simple file-based cache. It stores values in files in a directory, using a sha1 hash of the key as the filename. Values are stored in Raku's serialization format.
+This module provides simple key-value storage using the filesytem.
 
-The storage relies on the filesystem for atomicity (write-and-rename), and does not store the key anywhere. Without the key, it is possible to retrieve a list of entries (Cache::Dir::Entry), which may be expired individually. The entire cache can also be flushed.
+Each key is stored in a separate file. The filename is a SHA1 of the key. If the key not a string or numeric, then it is serialized using `.raku` before taking the sha.
+
+Serialization of the value is done using `.raku` and deserialization is done using `.EVAL`.
+
+Storage is done with atomic write-and-rename, so depends on a filesystem that has those semantics. The age of the key is also filesytem dependent.
+
+Note that the key is not stored, so there's no way to get a list of keys. However it is possible to get a list of "entries", which are objects that include their age, storage path, and value (see [Cache::Dir::Entry](Cache::Dir::Entry) below).
 
 METHODS
 =======
