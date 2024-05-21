@@ -21,13 +21,21 @@ DESCRIPTION
 
 This module provides simple key-value storage using the filesytem.
 
-Each key is stored in a separate file. The filename is a SHA1 of the key. If the key not a string or numeric, then it is serialized using `.raku` before taking the sha.
+Each key is stored in a separate file. The filename is a SHA1 of
+the key. If the key not a string or numeric, then it is serialized
+using `.raku` before taking the sha.
 
-Serialization of the value is done using `.raku` and deserialization is done using `.EVAL`.
+Serialization of the value is done using `.raku` and deserialization
+is done using `.EVAL`.
 
-Storage is done with atomic write-and-rename, so depends on a filesystem that has those semantics. The age of the key is also filesytem dependent.
+Storage is done with atomic write-and-rename, so depends on a
+filesystem that has those semantics. The age of the key is also
+filesytem dependent.
 
-Note that the key is not stored, so there's no way to get a list of keys. However it is possible to get a list of "entries", which are objects that include their age, storage path, and value (see [Cache::Dir::Entry](Cache::Dir::Entry) below).
+Note that the key is not stored, so there's no way to get a list
+of keys. However it is possible to get a list of "entries", which
+are objects that include their age, storage path, and value (see
+[Cache::Dir::Entry](Cache::Dir::Entry) below).
 
 METHODS
 =======
@@ -38,7 +46,8 @@ method get-cached
     method get-cached($key, $val) returns Mu
     method get-cached($key, &v) returns Mu
 
-Return a key if it exists, or store the provided value. The value can be a scalar or a routine.
+Return a key if it exists, or store the provided value. The value
+can be a scalar or a routine.
 
 method get
 ----------
@@ -97,7 +106,8 @@ method get-entries
 
     method get-entries returns Array
 
-Return a list of Cache::Dir::Entry objects, which can be used to inspect and remove individual entries.
+Return a list of Cache::Dir::Entry objects, which can be used to
+inspect and remove individual entries.
 
 Cache::Dir::Entry
 =================
