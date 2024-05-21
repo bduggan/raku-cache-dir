@@ -38,7 +38,7 @@ method get-cached
     method get-cached($key, $val) returns Mu
     method get-cached($key, &v) returns Mu
 
-Return a key if it exists, or store the provided value. The value can be a scalar or a routine.
+Return a value if it has been stored, or store the provided value. If the value is a routine, it is called.
 
 method get
 ----------
@@ -47,7 +47,7 @@ method get
     method get($key, $val) returns Mu
     method get($key, &v) returns Mu
 
-Get a value with a default scalar or routine
+Get a value with a provided default (but don't store).
 
 method store
 ------------
@@ -55,7 +55,7 @@ method store
     method store($key, $value) returns Mu
     method store($key, &v) returns Mu
 
-Store a value with a key. The value can be a scalar or a routine.
+Store a value for a key. If the value is a routine, the result of calling it is stored.
 
 method remove
 -------------
@@ -83,7 +83,7 @@ method flush
 
     method flush returns Mu
 
-Remove all keys from the cache.
+Remove all entries from the cache.
 
 method get-entries
 ------------------
@@ -122,11 +122,6 @@ method modified
     method modified returns DateTime
 
 Return the last modified time of the entry.
-
-BUGS
-====
-
-Getting the key's age relies on accurate interactions between Raku and the filesystem.
 
 AUTHOR
 ======

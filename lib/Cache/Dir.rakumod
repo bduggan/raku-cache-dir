@@ -132,8 +132,7 @@ include their age, storage path, and value (see L<Cache::Dir::Entry> below).
   method get-cached($key, &v) returns Mu
   =end code
 
-Return a key if it exists, or store the provided value.  If the value is a routine,
-it is called.
+Return a value if it has been stored, or store the provided value.  If the value is a routine, it is called.
 
 =head2 method get
   =begin code
