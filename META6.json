@@ -4,6 +4,7 @@
   ],
   "build-depends" : [ ],
   "depends" : [
+    "Digest::SHA1::Native"
   ],
   "description" : "",
   "license" : "MIT",
